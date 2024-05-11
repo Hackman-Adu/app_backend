@@ -11,14 +11,14 @@ const router = express.Router();
 
 router.use("/auth", AuthRoutes);
 
-router.use("/customers", Middleware.validateToken, CustomerRoutes);
+router.use("/customers", Middleware.validateRequest, CustomerRoutes);
 
-router.get("/dasboard", Middleware.validateToken, getSummary);
+router.get("/dasboard", Middleware.validateRequest, getSummary);
 
-router.use("/loans", Middleware.validateToken, LoanRoutes);
+router.use("/loans", Middleware.validateRequest, LoanRoutes);
 
-router.use("/investments", Middleware.validateToken, InvestmentRoutes);
+router.use("/investments", Middleware.validateRequest, InvestmentRoutes);
 
-router.use("/payment-methods", Middleware.validateToken, PaymentMethodRoutes);
+router.use("/payment-methods", Middleware.validateRequest, PaymentMethodRoutes);
 
 export default router;

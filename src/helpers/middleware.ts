@@ -3,7 +3,11 @@ import { NextFunction, Request, Response, request } from "express";
 import jwt from "jsonwebtoken";
 
 class Middleware {
-  public static validateToken(req: Request, res: Response, next: NextFunction) {
+  public static validateRequest(
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ) {
     try {
       const authHeader = req.headers["authorization"];
       if (!authHeader)

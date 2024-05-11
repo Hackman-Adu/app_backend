@@ -12,7 +12,7 @@ router.post("/sign-in", authController.signInUser);
 
 router.put(
   "/change-password",
-  Middleware.validateToken,
+  Middleware.validateRequest,
   authController.changePassword
 );
 

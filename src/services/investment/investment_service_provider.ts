@@ -57,6 +57,7 @@ class InvestmentServiceProvider extends InvestmentServiceManager {
             attributes: ["last_name", "other_names", "mobile", "photo_url"],
           },
         ],
+        order: [["created", "DESC"]],
       });
       return investments;
     } catch (error) {
