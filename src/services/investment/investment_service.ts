@@ -1,0 +1,23 @@
+import { Request } from "express";
+import InvestmentModel from "../../models/investment_model";
+import InvestmentPaymemtModel from "../../models/investment_payment_model";
+import InvestmentServiceManager from "./investment_service_manager";
+
+class InvestmentService<
+  T extends InvestmentServiceManager
+> extends InvestmentServiceManager {
+  addInvestmentPayment(request: Request): Promise<InvestmentPaymemtModel> {
+    return this.provider.addInvestmentPayment(request);
+  }
+  addInvestment(request: Request): Promise<InvestmentModel> {
+    return this.provider.addInvestment(request);
+  }
+  getInvestments(): Promise<InvestmentModel[]> {
+    return this.provider.getInvestments();
+  }
+  constructor(private provider: T) {
+    super();
+  }
+}
+
+export default InvestmentService;
