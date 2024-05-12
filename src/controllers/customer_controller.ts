@@ -31,6 +31,14 @@ class CustomerController {
       res.status(400).json({ message: error });
     }
   }
+  public async deleteCustomer(req: Request, res: Response) {
+    try {
+      const results = await customerService.deleteCustomer(req);
+      res.status(200).json({ message: "Successful", data: results });
+    } catch (error) {
+      res.status(400).json({ message: error });
+    }
+  }
 
   public async getCustomers(req: Request, res: Response) {
     try {

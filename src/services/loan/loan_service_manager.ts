@@ -7,6 +7,8 @@ abstract class LoanServiceManager {
 
   abstract addRepayment(request: Request): Promise<LoanRepaymentModel>;
 
+  abstract removeLoan(request: Request): Promise<boolean>;
+
   abstract getLoanRepayments(
     request: Request
   ): Promise<Array<LoanRepaymentModel>>;

@@ -38,6 +38,11 @@ class UserModel extends Model {
   @Column({
     type: DataType.STRING(255),
     allowNull: false,
+    validate: {
+      isEmail: {
+        msg: "Please provide a valid email address",
+      },
+    },
   })
   email!: string;
 

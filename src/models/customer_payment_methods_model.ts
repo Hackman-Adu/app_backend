@@ -31,6 +31,12 @@ class CustomerPaymentMethods extends Model {
   customer_id!: string;
 
   @Column({
+    type: DataType.STRING(255),
+    allowNull: false,
+  })
+  details!: string;
+
+  @Column({
     type: DataType.ENUM("bank", "momo"),
     defaultValue: "momo",
     allowNull: false,

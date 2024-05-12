@@ -16,6 +16,15 @@ class PaymentMethodController {
     }
   }
 
+  public async deletePaymentMethod(req: Request, res: Response) {
+    try {
+      const results = await paymentMethodService.deletePaymentMethod(req);
+      res.status(200).json({ message: "Successful", data: results });
+    } catch (error) {
+      res.status(401).json({ message: error });
+    }
+  }
+
   public async getPaymentMethods(req: Request, res: Response) {
     try {
       const paymentMethods = await paymentMethodService.getPaymentMethods();

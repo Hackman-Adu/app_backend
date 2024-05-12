@@ -10,7 +10,15 @@ class LoanController {
       const loans = await loanService.getLoans();
       res.status(200).json({ message: "Successful", data: loans });
     } catch (error) {
-      console.log("ERROR HERE", error);
+      res.status(403).json({ message: error });
+    }
+  }
+
+  public async removeLoan(req: Request, res: Response) {
+    try {
+      const results = await loanService.removeLoan(req);
+      res.status(200).json({ message: "Successful", data: results });
+    } catch (error) {
       res.status(403).json({ message: error });
     }
   }
@@ -20,7 +28,6 @@ class LoanController {
       const repayments = await loanService.getLoanRepayments(req);
       res.status(200).json({ message: "Successful", data: repayments });
     } catch (error) {
-      console.log("ERROR HERE", error);
       res.status(403).json({ message: error });
     }
   }

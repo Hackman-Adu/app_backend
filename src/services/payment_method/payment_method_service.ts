@@ -5,6 +5,9 @@ import PaymentMethodServiceManager from "./payment_method_service_manager";
 class PaymentMethodService<
   T extends PaymentMethodServiceManager
 > extends PaymentMethodServiceManager {
+  deletePaymentMethod(request: Request): Promise<boolean> {
+    return this.provider.deletePaymentMethod(request);
+  }
   getPaymentMethods(): Promise<CustomerPaymentMethods[]> {
     return this.provider.getPaymentMethods();
   }

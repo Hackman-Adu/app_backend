@@ -9,4 +9,6 @@ router.post("/", paymentMethodController.addPaymentMethod);
 
 router.get("/", paymentMethodController.getPaymentMethods);
 
+router.delete("/:id", paymentMethodController.deletePaymentMethod);
+
 export default router;

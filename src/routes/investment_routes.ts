@@ -8,6 +8,10 @@ router.post("/", investmentController.addInvestment);
 
 router.get("/", investmentController.getInvestments);
 
+router.get("/:id", investmentController.getInvestmentById);
+
+router.get("/customer/:id", investmentController.getCustomerInvestments);
+
 router.post("/investment-payments", investmentController.addInvestmentPayment);
 
 export default router;

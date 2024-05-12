@@ -5,6 +5,9 @@ import CustomerServiceManager from "./customer_service_manager";
 class CustomerService<
   T extends CustomerServiceManager
 > extends CustomerServiceManager {
+  deleteCustomer(request: Request): Promise<boolean> {
+    return this.provider.deleteCustomer(request);
+  }
   updateCustomer(request: Request): Promise<CustomerModel> {
     return this.provider.updateCustomer(request);
   }

@@ -4,6 +4,8 @@ import CustomerModel from "../../models/customer_model";
 abstract class CustomerServiceManager {
   abstract addCustomer(request: Request): Promise<CustomerModel>;
 
+  abstract deleteCustomer(request: Request): Promise<boolean>;
+
   abstract updateCustomer(request: Request): Promise<CustomerModel>;
 
   abstract getCustomer(request: Request): Promise<CustomerModel>;

@@ -6,6 +6,12 @@ import InvestmentServiceManager from "./investment_service_manager";
 class InvestmentService<
   T extends InvestmentServiceManager
 > extends InvestmentServiceManager {
+  getCustomerInvestments(request: Request): Promise<InvestmentModel[]> {
+    return this.provider.getCustomerInvestments(request);
+  }
+  getInvestmentById(request: Request): Promise<InvestmentModel> {
+    return this.provider.getInvestmentById(request);
+  }
   addInvestmentPayment(request: Request): Promise<InvestmentPaymemtModel> {
     return this.provider.addInvestmentPayment(request);
   }

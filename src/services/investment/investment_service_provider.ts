@@ -6,6 +6,20 @@ import InvestmentPaymemtModel from "../../models/investment_payment_model";
 import InvestmentServiceManager from "./investment_service_manager";
 
 class InvestmentServiceProvider extends InvestmentServiceManager {
+  async getCustomerInvestments(request: Request): Promise<InvestmentModel[]> {
+    const customerId = request.params.id;
+    const investments = await InvestmentModel.findAll({
+      where: { customer_id: customerId },
+      order: [["created", "DESC"]],
+    });
+    return investments;
+  }
+  async getInvestmentById(request: Request): Promise<InvestmentModel> {
+    const investmentId = request.params.id as string;
+    const investment = await InvestmentModel.findByPk(investmentId);
+    if (!investment) throw "Investment not found";
+    return investment;
+  }
   async addInvestmentPayment(
     request: Request
   ): Promise<InvestmentPaymemtModel> {
@@ -38,9 +52,10 @@ class InvestmentServiceProvider extends InvestmentServiceManager {
         },
       });
       if (!customer) throw "Customer does not exist";
-      const paymentMethod = customer.payment_method;
-      if (!paymentMethod) throw "Customer has no payment method";
-      if (paymentMethod.payment_method != payload.payment_method)
+      const paymentMethods = customer.payment_methods;
+      if (!paymentMethods || paymentMethods.length == 0)
+        throw "Customer has no payment method";
+      if (this.hasNoPaymentMethod(paymentMethods, payload.payment_method))
         throw "Customer has no such payment method";
       const investment = await InvestmentModel.create(payload.toJSON());
       return investment;
@@ -48,6 +63,14 @@ class InvestmentServiceProvider extends InvestmentServiceManager {
       throw error;
     }
   }
+  private hasNoPaymentMethod(
+    methods: CustomerPaymentMethods[],
+    method: string
+  ): boolean {
+    const allMethods = methods.map((e) => e.payment_method);
+    return allMethods.indexOf(method) < 0;
+  }
+
   async getInvestments(): Promise<InvestmentModel[]> {
     try {
       const investments = await InvestmentModel.findAll({

@@ -17,4 +17,6 @@ router.get("/customer/:customerId", loanController.getCustomerLoans);
 
 router.get("/:loanId", loanController.getLoanById);
 
+router.delete("/:loanId", loanController.removeLoan);
+
 export default router;

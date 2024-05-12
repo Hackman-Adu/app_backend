@@ -5,11 +5,20 @@ import LoanRepaymentModel from "../../models/loan_repayment_model";
 import LoanServiceManager from "./loan_service_manager";
 
 class LoanServiceProvider extends LoanServiceManager {
+  async removeLoan(request: Request): Promise<boolean> {
+    try {
+      const loanId = request.params.loanId;
+      const rows = await CustomerLoanModel.destroy({
+        where: { loan_id: loanId },
+      });
+      return rows > 0;
+    } catch (error) {
+      throw error;
+    }
+  }
   async getLoanRepayments(request: Request): Promise<LoanRepaymentModel[]> {
     try {
       const loanId = request.params.loanId;
-      const loan = await CustomerLoanModel.findByPk(loanId);
-      if (!loan) throw "Loan not found";
       return await LoanRepaymentModel.findAll({
         where: { loan_id: loanId },
       });
@@ -36,8 +45,6 @@ class LoanServiceProvider extends LoanServiceManager {
   }
   async getCustomerLoans(request: Request): Promise<CustomerLoanModel[]> {
     const customerId = request.params.customerId;
-    const customer = await CustomerModel.findByPk(customerId);
-    if (!customer) throw "Customer not found";
     return await CustomerLoanModel.findAll({
       where: { customer_id: customerId },
       order: [["created", "DESC"]],

@@ -4,6 +4,9 @@ import LoanRepaymentModel from "../../models/loan_repayment_model";
 import LoanServiceManager from "./loan_service_manager";
 
 class LoanService<T extends LoanServiceManager> extends LoanServiceManager {
+  removeLoan(request: Request): Promise<boolean> {
+    return this.provider.removeLoan(request);
+  }
   getLoanRepayments(request: Request): Promise<LoanRepaymentModel[]> {
     return this.provider.getLoanRepayments(request);
   }

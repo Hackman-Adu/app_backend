@@ -1,11 +1,4 @@
-import {
-  Column,
-  DataType,
-  HasMany,
-  HasOne,
-  Model,
-  Table,
-} from "sequelize-typescript";
+import { Column, DataType, HasMany, Model, Table } from "sequelize-typescript";
 import CustomerLoanModel from "./customer_loans_model";
 import CustomerPaymentMethods from "./customer_payment_methods_model";
 import InvestmentModel from "./investment_model";
@@ -24,7 +17,7 @@ class CustomerModel extends Model {
     defaultValue: DataType.UUIDV4,
     allowNull: false,
     primaryKey: true,
-    onUpdate: "NO ACTION",
+    onDelete: "CASCADE",
   })
   declare customer_id: string;
 
@@ -43,6 +36,7 @@ class CustomerModel extends Model {
   @Column({
     type: DataType.STRING(15),
     allowNull: false,
+    unique: true,
   })
   mobile!: string;
 
@@ -71,8 +65,8 @@ class CustomerModel extends Model {
   })
   loan_reference!: string;
 
-  @HasOne(() => CustomerPaymentMethods, "customer_id")
-  payment_method: CustomerPaymentMethods | undefined;
+  @HasMany(() => CustomerPaymentMethods, "customer_id")
+  payment_methods: Array<CustomerPaymentMethods> | undefined;
 
   @HasMany(() => CustomerLoanModel, "customer_id")
   loans: Array<CustomerLoanModel> | undefined;

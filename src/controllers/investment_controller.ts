@@ -14,6 +14,24 @@ class InvestmentController {
     }
   }
 
+  public async getCustomerInvestments(req: Request, res: Response) {
+    try {
+      const investments = await investService.getCustomerInvestments(req);
+      res.status(200).json({ message: "Successful", data: investments });
+    } catch (error) {
+      res.status(401).json({ message: error });
+    }
+  }
+
+  public async getInvestmentById(req: Request, res: Response) {
+    try {
+      const investment = await investService.getInvestmentById(req);
+      res.status(200).json({ message: "Successful", data: investment });
+    } catch (error) {
+      res.status(401).json({ message: error });
+    }
+  }
+
   public async addInvestmentPayment(req: Request, res: Response) {
     try {
       const payment = await investService.addInvestmentPayment(req);
