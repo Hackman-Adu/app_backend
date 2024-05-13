@@ -26,12 +26,18 @@ class UserModel extends Model {
   @Column({
     type: DataType.STRING(255),
     allowNull: false,
+    validate: {
+      not: "",
+    },
   })
   last_name!: string;
 
   @Column({
     type: DataType.STRING(255),
     allowNull: false,
+    validate: {
+      not: "",
+    },
   })
   first_name!: string;
 
@@ -55,6 +61,9 @@ class UserModel extends Model {
   @Column({
     type: DataType.STRING(255),
     allowNull: false,
+    validate: {
+      not: "",
+    },
   })
   password!: string;
 

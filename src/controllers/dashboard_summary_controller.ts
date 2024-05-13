@@ -1,7 +1,7 @@
+import { Request, Response } from "express";
 import CustomerLoanModel from "../models/customer_loans_model";
 import CustomerModel from "../models/customer_model";
-
-import { Request, Response } from "express";
+import InvestmentModel from "../models/investment_model";
 import InvestmentPaymemtModel from "../models/investment_payment_model";
 import LoanRepaymentModel from "../models/loan_repayment_model";
 
@@ -10,6 +10,7 @@ const totalRepayments = async (): Promise<number> => {
   const repaymentsArray = repayments.map((repayment) => {
     return repayment.amount;
   });
+  if (repaymentsArray.length == 0) return 0;
   return repaymentsArray.reduce((a, b) => parseFloat((a + b).toFixed(2)));
 };
 
@@ -18,14 +19,16 @@ const totalInvestmentPayments = async (): Promise<number> => {
   const paymentsArray = payments.map((payment) => {
     return payment.amount;
   });
+  if (paymentsArray.length == 0) return 0;
   return paymentsArray.reduce((a, b) => parseFloat((a + b).toFixed(2)));
 };
 
 const totalInvestments = async (): Promise<number> => {
-  const investments = await LoanRepaymentModel.findAll();
+  const investments = await InvestmentModel.findAll();
   const investmentsArray = investments.map((investment) => {
     return investment.amount;
   });
+  if (investmentsArray.length == 0) return 0;
   return investmentsArray.reduce((a, b) => parseFloat((a + b).toFixed(2)));
 };
 
@@ -34,29 +37,18 @@ const totalLoans = async (): Promise<number> => {
   const loansArray = loans.map((loan) => {
     return loan.amount;
   });
+  if (loansArray.length == 0) return 0;
   return loansArray.reduce((a, b) => parseFloat((a + b).toFixed(2)));
 };
 
 const getSummary = async (req: Request, res: Response) => {
   try {
-    const customers = CustomerModel.count();
-    const loans = totalLoans();
-    const repayments = totalRepayments();
-    const investments = totalInvestments();
-    const payments = totalInvestmentPayments();
-    const value = await Promise.all([
-      customers,
-      loans,
-      repayments,
-      investments,
-      payments,
-    ]);
     const response = {
-      total_customers: value[0],
-      total_loans: value[1],
-      total_loan_repayments: value[2],
-      total_investments: value[3],
-      total_investment_payments: value[4],
+      total_customers: await CustomerModel.count(),
+      total_loans: await totalLoans(),
+      total_loan_repayments: await totalRepayments(),
+      total_investments: await totalInvestments(),
+      total_investment_payments: await totalInvestmentPayments(),
     };
     res.status(200).json({
       message: "Successful",
